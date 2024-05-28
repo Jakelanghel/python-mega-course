@@ -2,7 +2,7 @@ import os
 import platform
 
 tasks = []
-usr_action = None
+usr_action = "complete"
 
 
 def clear_terminal():
@@ -17,37 +17,28 @@ def clear_terminal():
         os.system('clear')
 
 
-def back(command):
-    command = command.strip()
-    if command == "complete":
-        clear_terminal()
-        return True
-
 
 def add_task():
     clear_terminal()
     print("Please enter a task: or enter complete to go back to main menu")
     new_task = input()
-    complete = back(new_task)
-    if complete:
-        return None
-    else:
-        new_task = new_task.strip()
-        if new_task.strip() == "":
-            return "add"
-        else:
-            tasks.append(new_task)
-            return "add"
+    new_task = new_task.strip().lower()
+    if new_task == "":
+        return "add"
+    elif new_task == "complete":
+        return "complete"
+    
+    tasks.append(new_task)
+    return "add"
 
 
 def show_tasks():
     clear_terminal()
-    if len(tasks) == 0:
+    if not tasks:
         print("There are no tasks to show.")
-    else:
-        for i in range(len(tasks)):
-            print(f"task ID:{i + 1}: {tasks[i]}")
-        return None
+    for i in range(len(tasks)):
+        print(f"task ID:{i + 1}: {tasks[i]}")
+    return None
 
 
 def check_task_index(usr_input):
@@ -92,7 +83,8 @@ def edit_tasks():
     
 while True:
     match usr_action:
-        case None: 
+        case "complete": 
+             clear_terminal()
              print("Type add, show, edit, or exit: ")
              usr_action = input()
              usr_action = usr_action.strip()
@@ -102,8 +94,6 @@ while True:
             usr_action = show_tasks()
         case "edit":
             usr_action = edit_tasks()
-        case "complete":
-            usr_action = None
         case "exit":
             break
         case _:
