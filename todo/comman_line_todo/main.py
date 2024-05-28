@@ -62,22 +62,35 @@ def check_task_index(index):
 
 def edit_tasks():
     clear_terminal()
-    if len(tasks) == 0:
+    if not tasks:
         print("There are no tasks to edit.")
         return None
-    else:
-        show_tasks()
-        print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
-        usr_input = input()
-        task_index = check_task_index(usr_input)
-        clear_terminal()
-        print("Here is the task you selected, please enter new task to overwrite:")
-        print(tasks[task_index - 1])
-        edited_task = input()
-        clear_terminal()
-        tasks[task_index] = edited_task
-        print("Updated tasks:")
-        print(tasks)
+    # if len(tasks) == 0:
+        # print("There are no tasks to edit.")
+        # return None
+    # else:
+    #     show_tasks()
+    #     print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
+    #     usr_input = input()
+    #     task_index = check_task_index(usr_input)
+    #     clear_terminal()
+    #     print("Here is the task you selected, please enter new task to overwrite:")
+    #     print(tasks[task_index - 1])
+    #     edited_task = input()
+    #     clear_terminal()
+    #     tasks[task_index] = edited_task
+    #     print("Updated tasks:")
+    #     print(tasks)
+
+    clear_terminal()
+    print("Here is the task you selected, please enter a new task to overwrite:")
+    print(tasks[task_index])
+    edited_task = input()
+    clear_terminal()
+    tasks[task_index] = edited_task
+    print("Updated tasks:")
+    show_tasks()
+    
     
     
 while True:
