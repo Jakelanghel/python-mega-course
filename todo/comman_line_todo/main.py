@@ -50,13 +50,27 @@ def show_tasks():
         return None
 
 
-def check_task_index(index):
-    while not index.isdigit() | int(index) > len(tasks):
-        clear_terminal()
-        show_tasks()
-        print("Invalid entry! Please enter the task ID that you would like to edit.")
-        index = input()
-    return int(index)
+def check_task_index(usr_input):
+    try:
+        task_index = int(usr_input)
+        if 1 <= task_index <= len(tasks):
+            return task_index - 1
+        else:
+            raise ValueError
+    except ValueError:
+        print("Invalid task ID. Please enter a valid number.")
+        return None
+      
+
+def edit_task(task_index):
+    clear_terminal()
+    print("Here is the task you selected, please enter a new task to overwrite:")
+    print(tasks[task_index])
+    edited_task = input()
+    clear_terminal()
+    tasks[task_index] = edited_task
+    print("Updated tasks:")
+    show_tasks()
      
     
 
@@ -65,12 +79,31 @@ def edit_tasks():
     if not tasks:
         print("There are no tasks to edit.")
         return None
-    # if len(tasks) == 0:
+    show_tasks()
+    print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
+    usr_input = input()
+    if usr_input.lower() == 'complete':
+        return None
+
+    task_index = check_task_index(usr_input)
+    if task_index is not None:
+        edit_task(task_index)
+
+    # clear_terminal()
+    # print("Here is the task you selected, please enter a new task to overwrite:")
+    # print(tasks[task_index])
+    # edited_task = input()
+    # clear_terminal()
+    # tasks[task_index] = edited_task
+    # print("Updated tasks:")
+    # show_tasks()
+
+     # if len(tasks) == 0:
         # print("There are no tasks to edit.")
         # return None
     # else:
     #     show_tasks()
-    #     print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
+        # print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
     #     usr_input = input()
     #     task_index = check_task_index(usr_input)
     #     clear_terminal()
@@ -81,15 +114,6 @@ def edit_tasks():
     #     tasks[task_index] = edited_task
     #     print("Updated tasks:")
     #     print(tasks)
-
-    clear_terminal()
-    print("Here is the task you selected, please enter a new task to overwrite:")
-    print(tasks[task_index])
-    edited_task = input()
-    clear_terminal()
-    tasks[task_index] = edited_task
-    print("Updated tasks:")
-    show_tasks()
     
     
     
