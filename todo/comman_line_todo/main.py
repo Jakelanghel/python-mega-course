@@ -1,15 +1,8 @@
 import os
 import platform
 
-
-add = False
-show = False
-edit = False
-complete = False
-exit = False    
-
 tasks = []
-command = None
+usr_action = None
 
 
 def clear_terminal():
@@ -24,42 +17,47 @@ def clear_terminal():
         os.system('clear')
 
 
-
-
-def initial_prompt():
-    prompt = "Type add, show, edit, complete or exit:"
-    valid = ["add", "show", "edit", "complete", "main", "exit"]
-    initial = True
-    usr_input = None
-
-    while initial:
-        print(prompt)
-        txt = input()
-        if txt in valid:
-            usr_input = txt
-            initial = False
-        
-    return usr_input
+def back(command):
+    command = command.strip()
+    if command == "complete":
+        clear_terminal()
+        return True
 
 
 def add_task():
     clear_terminal()
-    prompt = "Please enter a task: or enter complete to go back to main menu"
-    print(prompt)
+    print("Please enter a task: or enter complete to go back to main menu")
     new_task = input()
-    if complete(new_task):
+    complete = back(new_task)
+    if complete:
         return None
     else:
-        tasks.append(new_task)
-        return "add"
-    
+        new_task = new_task.strip()
+        if new_task.strip() == "":
+            return "add"
+        else:
+            tasks.append(new_task)
+            return "add"
 
 
 def show_tasks():
     clear_terminal()
-    print(tasks)
-    return None
-    
+    if len(tasks) == 0:
+        print("There are no tasks to show.")
+    else:
+        for i in range(len(tasks)):
+            print(f"task ID:{i + 1}: {tasks[i]}")
+        return None
+
+
+def check_task_index(index):
+    while not index.isdigit() | int(index) > len(tasks):
+        clear_terminal()
+        show_tasks()
+        print("Invalid entry! Please enter the task ID that you would like to edit.")
+        index = input()
+    return int(index)
+     
     
 
 def edit_tasks():
@@ -68,62 +66,50 @@ def edit_tasks():
         print("There are no tasks to edit.")
         return None
     else:
+        show_tasks()
         print("Please select the task ID that you would like to edit. or enter complete to return to main menu")
-        for i in range(len(tasks)):
-            print("task-ID:" + str(i + 1) + " " + tasks[i])
         usr_input = input()
         task_index = check_task_index(usr_input)
-        task_index -= 1
         clear_terminal()
         print("Here is the task you selected, please enter new task to overwrite:")
-        print(tasks[task_index])
+        print(tasks[task_index - 1])
         edited_task = input()
-        if complete(edited_task):
-            return None
-        else: 
-            tasks[task_index] = edited_task
-
-    
-    
-
-    
-
-def check_task_index(index):
-    while index.isdigit() == False or int(index) > len(tasks):
-        print("That is not a valid selection.")
-        print("Please enter the ID of the task you would like to edit:")
-        index = input()
-    return int(index)
-        
-
-def complete(command):
-    if command == "complete":
         clear_terminal()
-        return True
-
-
-def exit_program():
-    return True
-
-
-
-
+        tasks[task_index] = edited_task
+        print("Updated tasks:")
+        print(tasks)
     
-
-while exit == False:
-    if command == None:
-        command = initial_prompt()
-    if command == "add":
-        command = add_task()
-    elif command == "show":
-        command = show_tasks()
-    elif command == "edit":
-        command = edit_tasks()
-    elif command == "main":
-        print("main")
-    elif command == "exit":
-        exit = exit_program()
     
+while True:
+    match usr_action:
+        case None: 
+             print("Type add, show, edit, or exit: ")
+             usr_action = input()
+             usr_action = usr_action.strip()
+        case "add":
+            usr_action = add_task()
+        case "show":
+            usr_action = show_tasks()
+        case "edit":
+            usr_action = edit_tasks()
+        case "complete":
+            usr_action = None
+        case "exit":
+            break
+        case _:
+            clear_terminal()
+            print("That is not a valid command! Please enter add, show, edit or exit:")
+            usr_action = input()
+            usr_action = usr_action.strip()
+           
+            
+
+
+
+
+
+            
+
     
         
    
