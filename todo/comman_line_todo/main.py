@@ -16,7 +16,10 @@ def clear_terminal():
         # Unix-based systems (Linux, macOS) command to clear the terminal
         os.system('clear')
 
-
+def get_action():
+    print("Type add, show, edit, or exit: ")
+    usr_action = input()
+    return usr_action.strip()
 
 def add_task():
     clear_terminal()
@@ -85,13 +88,12 @@ while True:
     match usr_action:
         case "complete": 
              clear_terminal()
-             print("Type add, show, edit, or exit: ")
-             usr_action = input()
-             usr_action = usr_action.strip()
+             usr_action = get_action()
         case "add":
             usr_action = add_task()
         case "show":
             usr_action = show_tasks()
+            get_action()
         case "edit":
             usr_action = edit_tasks()
         case "exit":
