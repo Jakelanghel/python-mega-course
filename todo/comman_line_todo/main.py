@@ -17,7 +17,11 @@ def clear_terminal():
         os.system('clear')
 
 
-
+def check_back_exit(input):
+    input = input.lower()
+    if input == "back" or input == "exit":
+        return input
+    return False
 
 def get_action():
     print("Type add, show, edit, complete or exit: ")
@@ -29,14 +33,14 @@ def add_task():
     clear_terminal()
     print("Please enter a task: or enter back to go back to main menu")
     new_task = input()
-    new_task = new_task.strip().lower()
-    if new_task == "":
+    new_task = new_task.strip()
+    command = check_back_exit(new_task)
+    if not command:
+        if new_task != "":
+            tasks.append(new_task)
         return "add"
-    elif new_task == "back":
-        return "back"
+    return command
     
-    tasks.append(new_task)
-    return "add"
 
 
 def show_tasks():
