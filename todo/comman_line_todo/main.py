@@ -1,8 +1,14 @@
 import os
 import platform
 
-tasks = []
+
 usr_action = "back"
+
+file = open("todos.txt", "r")
+tasks = file.readlines()
+file.close()
+
+
 
 
 def clear_terminal():
@@ -33,11 +39,15 @@ def add_task():
     clear_terminal()
     print("Please enter a task: or enter back to go back to main menu")
     new_task = input()
+   
     new_task = new_task.strip()
     command = check_back_exit(new_task)
     if not command:
         if new_task != "":
             tasks.append(new_task)
+            file = open("todos.txt", "w")
+            file.write("\n".join(tasks) + "\n")
+            file.close()
         return "add"
     return command
     
@@ -45,6 +55,7 @@ def add_task():
 
 def show_tasks():
     clear_terminal()
+    print(tasks)
     if not tasks:
         print("There are no tasks to show.")
     for i, task in enumerate(tasks):
@@ -125,6 +136,7 @@ while True:
         case "back": 
              clear_terminal()
              usr_action = get_action()
+             
         case "add":
             usr_action = add_task()
         case "show":
