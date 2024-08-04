@@ -1,1 +1,0 @@
-Percent button is used to find the percentage of a number. Enter the percentage amount, 
